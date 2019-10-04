@@ -1,0 +1,14 @@
+<!-- *ngFor="let contact of contact" -->
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <!-- <h4>{{ contact.name }}</h4> -->
+    <a href="#" class="btn btn-primary pull-right">Edit</a>
+    <a href="#" class="btn btn-danger pull-right">Delete</a>
+    <h4><strong>{{ contact.name }}</strong></h4>
+    <img [src]="contact.imageUrl" alt="{{ contact.name }}">
+  </div>
+  <div class="panel-body">
+    <p><strong>Email: </strong> {{ contact.email }}</p>
+    <p><strong>Phone: </strong> {{ contact.Phone}}</p>
+  </div>
+</div>
