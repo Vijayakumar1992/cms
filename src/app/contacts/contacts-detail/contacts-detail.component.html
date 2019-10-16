@@ -1,14 +1,15 @@
 <!-- *ngFor="let contact of contact" -->
 <div class="panel panel-default">
   <div class="panel-heading btn-toolbar">
-    <h4><strong>{{ contact.name }}</strong></h4>
+    <h4><strong>{{ contact?.name }}</strong></h4>
     <a href="#" class="btn btn-primary pull-right">Edit</a>
     <a href="#" class="btn btn-danger pull-right">Delete</a>
     <!-- <h4><strong>{{ contact.name }}</strong></h4> -->
-    <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-responsive" style="max-height: 100px;">
+    <img [src]="contact?.imageUrl" alt="{{ contact?.name }}" class="img-responsive" style="max-height: 100px;"
+      *ngIf="contact?.imageUrl">
   </div>
   <div class="panel-body">
-    <p><strong>Email: </strong> {{ contact.phone }}</p>
-    <p><strong>Phone: </strong> {{ contact.email }}</p>
+    <p><strong>Email: </strong> {{ contact?.email }}</p>
+    <p><strong>Phone: </strong> {{ contact?.phone }}</p>
   </div>
 </div>

@@ -10,7 +10,7 @@ export class HeaderComponent implements OnInit {
   //property is a variable
  @Output() selectedFeatureEvent = new EventEmitter<string>();
 
-  //pass in dependency injection
+  //pass in dependency injection anything we want to pass
   constructor() { }
 
   //
