@@ -22,12 +22,11 @@ export class ContactService implements OnInit {
     return null;
   }
 
-
   getContacts(): Contact[] {
     return this.contacts.slice();
   }
 
-  
+
   ngOnInit() {
 
   }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
 import { Message } from '../message.model';
+import { MessagesService } from '../messages.service';
 
 @Component({
   selector: 'cms-message-list',
@@ -7,18 +8,19 @@ import { Message } from '../message.model';
   styleUrls: ['./message-list.component.css']
 })
 export class MessageListComponent implements OnInit {
-  messages: Message[] = [
-    new Message('1', 'email', 'This is a test mesasge ', 'David'),
-    new Message('1', 'email', 'This is a test mesasge ', 'Daniel'),
-    new Message('1', 'email', 'This is a test mesasge ', 'Tim')
-  ]
+  messages: Message[];
 
-  constructor() { }
+  constructor(private messagesService: MessagesService) { }
 
   ngOnInit() {
+    // this.messages = this.messagesService.getMessages();
+    this.messagesService.messageChangeEvent.subscribe(
+      (messages: Message[]) => {
+        this.messages = messages;
+      });
   }
 
-  onAddMessage(message: Message) {
+  onAddMessage(message) {
     this.messages.push(message);
   }
 

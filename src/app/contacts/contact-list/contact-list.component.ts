@@ -7,20 +7,8 @@ import { ContactService } from '../contact.service';
   templateUrl: './contact-list.component.html',
   styleUrls: ['./contact-list.component.css']
 })
-export class ContactListComponent implements OnInit {
-  @Output() selectedContactEvent = new EventEmitter<Contact>();
+export class ContactListComponent implements OnInit {  
   contacts: Contact[];
-  
-  // = [
-  //   new Contact("1", "R. Kent Jackson", "208-496-3771", "jacksonk@byui.edu", "https://web.byui.edu/Directory/Employee/jacksonk.jpg", null),
-  //   new Contact("2", "R. Barzee", "208-496-3768", "bareer@byui.edu", "https://web.byui.edu/Directory/Employee/barzeer.jpg", null)
-  // ];
-
-
-  // onSelected(contact: Contact) {
-  //   this.selectedContactEvent.emit(contact);
-  // }
-
 
   constructor(private contactService: ContactService) {
   }
@@ -29,9 +17,9 @@ export class ContactListComponent implements OnInit {
     this.contacts = this.contactService.getContacts();
   }
 
-
+    //Going to the service& getting the data to display it in the document
   onSelected(contact: Contact) {
-    this.selectedContactEvent.emit(contact)
+    this.contactService.contactSelectEvent.emit(contact)
   }
 
 }
