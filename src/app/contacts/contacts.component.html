@@ -4,7 +4,8 @@
       <cms-contact-list (selectedContactEvent)="selectedContact =$event"></cms-contact-list>
     </div>
     <div class="col-md-4">
-      <cms-contacts-detail [contact]="selectedContact"></cms-contacts-detail>
+      <!-- <cms-contacts-detail [contact]="selectedContact"></cms-contacts-detail> -->
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

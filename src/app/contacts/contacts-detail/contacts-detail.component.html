@@ -2,9 +2,8 @@
 <div class="panel panel-default">
   <div class="panel-heading btn-toolbar">
     <h4><strong>{{ contact?.name }}</strong></h4>
-    <a href="#" class="btn btn-primary pull-right">Edit</a>
-    <a href="#" class="btn btn-danger pull-right">Delete</a>
-    <!-- <h4><strong>{{ contact.name }}</strong></h4> -->
+    <a [routerLink]="['edit']"  class="btn btn-primary pull-right">Edit</a>
+    <a  (click)="onDelete()" class="btn btn-danger pull-right">Delete</a>
     <img [src]="contact?.imageUrl" alt="{{ contact?.name }}" class="img-responsive" style="max-height: 100px;"
       *ngIf="contact?.imageUrl">
   </div>

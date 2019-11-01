@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 
 @Component({
@@ -7,18 +7,11 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  //property is a variable
- @Output() selectedFeatureEvent = new EventEmitter<string>();
-
-  //pass in dependency injection anything we want to pass
+ 
   constructor() { }
 
-  //
   ngOnInit() {
   }
  
 
- onSelected(selectedEvent: string) {
-  this.selectedFeatureEvent.emit(selectedEvent);
- }
 }
