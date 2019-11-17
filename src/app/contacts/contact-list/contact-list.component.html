@@ -5,8 +5,15 @@
   </div>
   <div class="panel-body">
     <cms-contact-item 
-    *ngFor="let contact of contacts" 
+    *ngFor="let contact of contacts"     
     [contact]="contact" 
+    dnd-draggable 
+    [dragEnabled]="true" 
+    [dragData]="contact" 
+    [dropZones]="['contactGroup']"
     ></cms-contact-item>
   </div>
 </div>
+
+
+<!-- | contactFilter:term   -- add this pipe to the ngfor above when you get to pipe concept -->
