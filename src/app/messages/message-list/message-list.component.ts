@@ -1,4 +1,4 @@
-import { Component, OnInit, MissingTranslationStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Message } from '../message.model';
 import { MessagesService } from '../messages.service';
 
