@@ -1,9 +1,11 @@
  <a routerLinkActive="active" 
  [routerLink]="contact.id" 
  class="list-group-item clearfix">
+ <div class="pull-left">
    <h4 class="list-group-item-heading">{{ contact.name }}</h4>
-   <span class="pull-right">
+ </div> 
+ <span class="pull-right">
      <img [src]="contact.imageUrl" alt="" 
-     class="image-responsive pull-right">
+     class="image-responsive pull-right" style="max-height: 50px;">
    </span>
  </a>
