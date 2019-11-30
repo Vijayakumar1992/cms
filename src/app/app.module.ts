@@ -53,9 +53,9 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     BrowserModule, 
     AppRoutingModule, 
-    FormsModule, 
-    DndModule.forRoot(), 
-    HttpClientModule
+    FormsModule,      
+    HttpClientModule,
+    DndModule.forRoot()
   ],
   providers: [ContactService, DocumentsService, MessagesService, WindRefService],
   bootstrap: [AppComponent]

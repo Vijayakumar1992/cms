@@ -1,6 +1,7 @@
-import { Injectable,EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Message } from './message.model';
 import { MOCKMESSAGES } from './MOCKMESSAGES';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 
 @Injectable({
@@ -9,14 +10,17 @@ import { MOCKMESSAGES } from './MOCKMESSAGES';
 export class MessagesService {
   messages: Message[];
   messageChangeEvent = new EventEmitter<Message[]>();
+  maxMessageId: number;
 
-  addMessage(message: Message){
+  addMessage(message: Message) {
     this.messages.push(message);
     this.messageChangeEvent.emit(this.messages.slice());
   }
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.messages = MOCKMESSAGES;
+    this.maxMessageId = this.getMaxId();
+
   }
 
   //functions are responsible
@@ -33,16 +37,30 @@ export class MessagesService {
     return this.messages.slice();
   }
 
-  // addMessage(message: Message) {
-  //   if (message === null) {
-  //     return;
-  //   }
+  getMaxId(): number {
+    let maxId = 0;
+    for (const message of this.messages) {
+      const currentId = +message.id;
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    }
+    return maxId;
+  }
 
-  //   this.maxMessageId++;
-  //   newMessage.id = String(this.maxMessageId);
-  //   this.messages.push(message);
-  //   // this.messageChangeEvent.emit(this.messages.slice());
-  //   this.storeMessages();
-  // }
-  
+  initMessages() {
+
+  }
+
+
+  storeMessages() {
+    this.messages = JSON.parse(JSON.stringify(this.messages));
+    const header = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put('https://davidcms-project.firebaseio.com/messages.json', this.messages, { headers: header })
+      .subscribe(
+        (messages: Message[]) => {
+          this.messageChangeEvent.next(this.messages.slice());
+        }
+      );
+  }
 }

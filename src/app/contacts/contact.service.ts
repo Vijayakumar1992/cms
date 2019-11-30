@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { Contact } from './contact.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ContactService implements OnInit {
   contactChangedEvent = new Subject<Contact[]>();
   maxContactId: number;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.contacts = MOCKCONTACTS;
     this.maxContactId = this.getMaxId();
   }
@@ -26,8 +27,17 @@ export class ContactService implements OnInit {
     return null;
   }
 
-  getContacts(): Contact[] {
-    return this.contacts.slice();
+  getContacts() {
+    this.http.get('https://davidcms-project.firebaseio.com/contacts.json')
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contacts = contacts;
+          this.contacts.sort((a, b) => (a['name'] < b['name']) ? 1 : (a['name'] > b['name']) ? -1 : 0);
+          this.contactChangedEvent.next(this.contacts.slice());
+        }, (error: any) => {
+          console.log('something bad happened...');
+        }
+      );
   }
 
   deleteContact(contact: Contact) {
@@ -84,7 +94,16 @@ export class ContactService implements OnInit {
     this.contactChangedEvent.next(contactsListClone);
   }
 
-  ngOnInit() {
+  ngOnInit() { }
 
+  storeContact() {
+    this.contacts = JSON.parse(JSON.stringify(this.contacts));
+    const header = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.put('http://localhost:3000/contacts', this.contacts, { headers: header })
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contactChangedEvent.next(this.contacts.slice());
+        }
+      );
   }
 }
