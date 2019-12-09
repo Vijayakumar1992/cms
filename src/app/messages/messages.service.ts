@@ -1,26 +1,30 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Message } from './message.model';
-import { MOCKMESSAGES } from './MOCKMESSAGES';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class MessagesService {
-  messages: Message[];
+export class MessagesService { 
   messageChangeEvent = new EventEmitter<Message[]>();
-  maxMessageId: number;
 
-  addMessage(message: Message) {
-    this.messages.push(message);
-    this.messageChangeEvent.emit(this.messages.slice());
-  }
+  private messages: Message[] = [];
 
-  constructor(private http: HttpClient) {
-    this.messages = MOCKMESSAGES;
-    this.maxMessageId = this.getMaxId();
+  constructor(private http: HttpClient) { }
 
+  getMessages() {
+    // return this.messages.slice();
+    this.http.get<{ message: string, messages: Message[] }>('http://localhost:3000/messages')
+      .subscribe(
+        (messageData) => {
+          this.messages = messageData.messages;
+          this.messageChangeEvent.next(this.messages.slice());
+        },
+        (error: any) => {
+          console.log(error);
+        }
+      );
   }
 
   //functions are responsible
@@ -33,34 +37,37 @@ export class MessagesService {
     return null;
   }
 
-  getMessages(): Message[] {
-    return this.messages.slice();
-  }
+  // getMaxId(): number {
+  //   let maxId = 0;
+  //   for (const message of this.messages) {
+  //     const currentId = +message.id;
+  //     if (currentId > maxId) {
+  //       maxId = currentId;
+  //     }
+  //   }
+  //   return maxId;
+  // }
 
-  getMaxId(): number {
-    let maxId = 0;
-    for (const message of this.messages) {
-      const currentId = +message.id;
-      if (currentId > maxId) {
-        maxId = currentId;
-      }
+  initMessages() { }
+
+  addMessage(message: Message) {
+    if (!message) {
+      return;
     }
-    return maxId;
-  }
+    const headers = new HttpHeaders({ 'content-Type': 'application/json' });
 
-  initMessages() {
+    //make sure id of the new message is empty
+    message.id = " ";
+    const strMessage = JSON.stringify(message);
 
-  }
-
-
-  storeMessages() {
-    this.messages = JSON.parse(JSON.stringify(this.messages));
-    const header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.put('https://davidcms-project.firebaseio.com/messages.json', this.messages, { headers: header })
+    //add to database
+    this.http.post<{ title: string, message: Message }>('http://localhost:3000/messages', strMessage, { headers: headers })
       .subscribe(
-        (messages: Message[]) => {
-          this.messageChangeEvent.next(this.messages.slice());
-        }
-      );
+        (messageInfor) => {
+          this.messages.push(messageInfor.message);
+        }),
+      (error: any) => {
+        console.log(error);
+      };
   }
 }
