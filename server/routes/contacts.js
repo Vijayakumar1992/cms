@@ -91,4 +91,19 @@ router.delete("/:id", (req, res, next) => {
     });
 });
 
+
+router.get("/:id", (req, res, next) => {
+  Contact.findOne()
+    .then(contact => {
+      res.status(200).json({
+        message: "Contacts featched successfully ",
+        contact: contact
+      });
+    })
+    .catch(error => {
+      returnError(res, error);
+    });
+});
+
+
 module.exports = router;

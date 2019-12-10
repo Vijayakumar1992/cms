@@ -25,7 +25,7 @@ export class MessagesService {
           console.log(error);
         }
       );
-  }
+  } 
 
   //functions are responsible
   //getting the list of messages and a single message respectively. 
@@ -36,17 +36,6 @@ export class MessagesService {
     }
     return null;
   }
-
-  // getMaxId(): number {
-  //   let maxId = 0;
-  //   for (const message of this.messages) {
-  //     const currentId = +message.id;
-  //     if (currentId > maxId) {
-  //       maxId = currentId;
-  //     }
-  //   }
-  //   return maxId;
-  // }
 
   initMessages() { }
 
