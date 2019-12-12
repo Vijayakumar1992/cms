@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Contact } from './contact.model';
 import { Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { stringify } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -32,15 +33,18 @@ export class ContactService {
   }
 
   //getting the list of contacts and a single contact respectively. 
-  getContact(id: string): Contact {
-    console.log("contacts", this.contacts)
-    for (const contact of this.contacts) {
-      if (contact.id === id) {
-        return contact;
-      }
-    }
-    return null;
+  getContact(id: string) {
+    return this.http.get<{ message: string, contact: Contact }>('http://localhost:3000/contacts/' + id);
+    // console.log(id);
+    // for (const contact of this.contacts) {    
+    //   if (contact.id === id) {
+    //     return contact;
+    //   }
+    // }
+    // return null;
   }
+
+
 
   deleteContact(contact: Contact) {
     if (!contact) {

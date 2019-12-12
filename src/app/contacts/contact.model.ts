@@ -1,8 +1,9 @@
-export class Contact {    
+export class Contact {
     // we shoten this code to be efficient 
     constructor(
+        public _id: string,
         public id: string,
-        public name: string,       
+        public name: string,
         public email: string,
         public phone: string,
         public imageUrl: string,

@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class MessagesService { 
+export class MessagesService {
   messageChangeEvent = new EventEmitter<Message[]>();
 
   private messages: Message[] = [];
@@ -25,7 +25,7 @@ export class MessagesService {
           console.log(error);
         }
       );
-  } 
+  }
 
   //functions are responsible
   //getting the list of messages and a single message respectively. 
@@ -46,14 +46,17 @@ export class MessagesService {
     const headers = new HttpHeaders({ 'content-Type': 'application/json' });
 
     //make sure id of the new message is empty
-    message.id = " ";
+    // message.id = '';
+    // message.id = ...
     const strMessage = JSON.stringify(message);
+    console.log("Testing messages", strMessage)
 
     //add to database
     this.http.post<{ title: string, message: Message }>('http://localhost:3000/messages', strMessage, { headers: headers })
       .subscribe(
         (messageInfor) => {
           this.messages.push(messageInfor.message);
+          this.getMessages();
         }),
       (error: any) => {
         console.log(error);

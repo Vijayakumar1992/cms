@@ -27,7 +27,10 @@ export class ContactsDetailComponent implements OnInit {
     this.route.params.subscribe(
       (params: Params) => {
         this.id = params['id'];
-        this.contact = this.contactService.getContact(this.id);
+        this.contactService.getContact(this.id)
+          .subscribe(contactData => {
+            this.contact = contactData.contact;
+          })
       }
     );
   }
